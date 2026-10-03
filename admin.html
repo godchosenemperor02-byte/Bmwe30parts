@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Portal — E30 Tuning & Parts</title>
+  <link rel="stylesheet" href="admin.css" />
+  <!-- Supabase JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="admin-header">
+    <div class="header-container">
+      <div class="brand">
+        <span class="badge">E30 Admin</span>
+        <h1>Product Management</h1>
+      </div>
+      <div class="user-controls">
+        <span id="userEmail" class="user-email"></span>
+        <button id="logoutBtn" class="logout-btn">Log Out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="admin-container">
+    
+    <!-- Action Bar & Stats -->
+    <div class="action-bar">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search products by name or category..." />
+      </div>
+      <button id="openModalBtn" class="primary-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Add Product</span>
+      </button>
+    </div>
+
+    <!-- Products Data Table -->
+    <div class="table-card">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="productsTableBody">
+          <tr>
+            <td colspan="6" class="loading-state">Loading products...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Add / Edit Modal -->
+  <div id="productModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add New Product</h2>
+        <button id="closeModalBtn" class="close-btn">&times;</button>
+      </div>
+
+      <form id="productForm">
+        <input type="hidden" id="productId" />
+        <input type="hidden" id="existingImageUrl" />
+
+        <div class="input-group">
+          <label for="prodName">Product Name *</label>
+          <input type="text" id="prodName" placeholder="e.g. Bosch Motronic 1.3 ECU" required />
+        </div>
+
+        <div class="form-row">
+          <div class="input-group">
+            <label for="prodCategory">Category *</label>
+            <select id="prodCategory" required>
+              <option value="" disabled selected>Select Category</option>
+              <option value="engine">Engine & Performance</option>
+              <option value="suspension">Suspension & Steering</option>
+              <option value="coding-ecu">ECU, Tuning & Coding</option>
+              <option value="exterior">Exterior & Body</option>
+              <option value="interior">Interior & Trim</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="prodPrice">Price ($USD) *</label>
+            <input type="number" step="0.01" id="prodPrice" placeholder="250.00" required />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="prodStatus">Status</label>
+          <select id="prodStatus">
+            <option value="available">Available</option>
+            <option value="sold_out">Sold Out</option>
+            <option value="pre_order">Pre-Order</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="prodDescription">Description</label>
+          <textarea id="prodDescription" rows="3" placeholder="Enter condition, part specifications, or vehicle compatibility details..."></textarea>
+        </div>
+
+        <div class="input-group">
+          <label for="prodImage">Product Image</label>
+          <input type="file" id="prodImage" accept="image/*" />
+          <p class="file-hint">Leave blank to keep current image when editing.</p>
+        </div>
+
+        <div id="modalError" class="error-banner" style="display: none;"></div>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelModalBtn" class="secondary-btn">Cancel</button>
+          <button type="submit" id="saveProductBtn" class="primary-btn">
+            <span>Save Product</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // 1. Supabase Initialization
+      const SUPABASE_URL = 'https://kyhjvnpynjfdhlkvpnpy.supabase.co';
+      const SUPABASE_ANON_KEY = 'sb_publishable_8O7H7icfsySvMHZHy-Uprw_lJnTvXf5';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 2. DOM Elements
+    const productsTableBody = document.getElementById('productsTableBody');
+    const searchInput = document.getElementById('searchInput');
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cancelModalBtn = document.getElementById('cancelModalBtn');
+    const productModal = document.getElementById('productModal');
+    const productForm = document.getElementById('productForm');
+    const modalTitle = document.getElementById('modalTitle');
+    const saveProductBtn = document.getElementById('saveProductBtn');
+    const modalError = document.getElementById('modalError');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userEmailSpan = document.getElementById('userEmail');
+
+    let allProducts = [];
+
+async function enforceAuth() {
+  const { data: { session }, error } = await supabaseClient.auth.getSession();
+
+  // If no session or token error exists, kick to login
+  if (error || !session) {
+    window.location.replace('login.html');
+    return;
+  }
+
+  // Valid session verified -> reveal admin content
+  document.body.style.display = 'block';
+  if (userEmailSpan) {
+    userEmailSpan.textContent = session.user.email;
+  }
+  fetchProducts();
+}
+
+enforceAuth();
+
+    // 4. Fetch & Read Products
+    async function fetchProducts() {
+      productsTableBody.innerHTML = `<tr><td colspan="6" class="loading-state">Loading products...</td></tr>`;
+
+      const { data, error } = await supabaseClient
+        .from('products')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        productsTableBody.innerHTML = `<tr><td colspan="6" class="error-state">Failed to load: ${error.message}</td></tr>`;
+        return;
+      }
+
+      allProducts = data || [];
+      renderProducts(allProducts);
+    }
+
+    // 5. Render Table
+    function renderProducts(products) {
+      if (products.length === 0) {
+        productsTableBody.innerHTML = `<tr><td colspan="6" class="empty-state">No products found. Click "Add Product" to create one.</td></tr>`;
+        return;
+      }
+
+      productsTableBody.innerHTML = products.map(item => `
+        <tr>
+          <td>
+            <div class="thumb-container">
+              ${item.image_url 
+                ? `<img src="${item.image_url}" alt="${item.name}" class="product-thumb" />` 
+                : `<div class="no-thumb">No Image</div>`}
+            </div>
+          </td>
+          <td class="font-bold">${item.name}</td>
+          <td><span class="category-tag">${item.category}</span></td>
+          <td class="font-mono">$${Number(item.price).toFixed(2)}</td>
+          <td>
+            <span class="status-pill status-${item.status}">
+              ${item.status.replace('_', ' ')}
+            </span>
+          </td>
+          <td>
+            <div class="table-actions">
+              <button class="action-btn edit-btn" onclick="editProduct(${item.id})">Edit</button>
+              <button class="action-btn delete-btn" onclick="deleteProduct(${item.id})">Delete</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // 6. Search Filter
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase();
+      const filtered = allProducts.filter(p => 
+        p.name.toLowerCase().includes(term) || 
+        p.category.toLowerCase().includes(term)
+      );
+      renderProducts(filtered);
+    });
+
+    // 7. Storage Image Upload Handler
+    async function uploadImage(file) {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
+      const filePath = `items/${fileName}`;
+
+      const { error: uploadError } = await supabaseClient.storage
+        .from('product-images')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabaseClient.storage
+        .from('product-images')
+        .getPublicUrl(filePath);
+
+      return data.publicUrl;
+    }
+
+    // 8. Create & Update Submit Handler
+    productForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      modalError.style.display = 'none';
+      saveProductBtn.disabled = true;
+      saveProductBtn.innerHTML = '<span>Saving...</span>';
+
+      const id = document.getElementById('productId').value;
+      const name = document.getElementById('prodName').value.trim();
+      const category = document.getElementById('prodCategory').value;
+      const price = parseFloat(document.getElementById('prodPrice').value);
+      const status = document.getElementById('prodStatus').value;
+      const description = document.getElementById('prodDescription').value.trim();
+      const imageFile = document.getElementById('prodImage').files[0];
+      let imageUrl = document.getElementById('existingImageUrl').value;
+
+      try {
+        if (imageFile) {
+          imageUrl = await uploadImage(imageFile);
+        }
+
+        const payload = { name, category, price, status, description, image_url: imageUrl };
+
+        if (id) {
+          // UPDATE
+          const { error } = await supabaseClient.from('products').update(payload).eq('id', id);
+          if (error) throw error;
+        } else {
+          // CREATE
+          const { error } = await supabaseClient.from('products').insert([payload]);
+          if (error) throw error;
+        }
+
+        closeModal();
+        fetchProducts();
+      } catch (err) {
+        modalError.textContent = err.message || 'Operation failed.';
+        modalError.style.display = 'block';
+      } finally {
+        saveProductBtn.disabled = false;
+        saveProductBtn.innerHTML = '<span>Save Product</span>';
+      }
+    });
+
+    // 9. Edit Record Modal Setup
+    window.editProduct = function(id) {
+      const product = allProducts.find(p => p.id === id);
+      if (!product) return;
+
+      document.getElementById('productId').value = product.id;
+      document.getElementById('prodName').value = product.name;
+      document.getElementById('prodCategory').value = product.category;
+      document.getElementById('prodPrice').value = product.price;
+      document.getElementById('prodStatus').value = product.status;
+      document.getElementById('prodDescription').value = product.description || '';
+      document.getElementById('existingImageUrl').value = product.image_url || '';
+
+      modalTitle.textContent = 'Edit Product';
+      productModal.style.display = 'flex';
+    };
+
+    // 10. Delete Record Handler
+    window.deleteProduct = async function(id) {
+      if (!confirm('Are you sure you want to permanently delete this product?')) return;
+
+      const { error } = await supabaseClient.from('products').delete().eq('id', id);
+      if (error) {
+        alert('Failed to delete: ' + error.message);
+      } else {
+        fetchProducts();
+      }
+    };
+
+    // 11. Modal Visibility Helpers
+    function openModal() {
+      productForm.reset();
+      document.getElementById('productId').value = '';
+      document.getElementById('existingImageUrl').value = '';
+      modalTitle.textContent = 'Add New Product';
+      modalError.style.display = 'none';
+      productModal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      productModal.style.display = 'none';
+    }
+
+    openModalBtn.addEventListener('click', openModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelModalBtn.addEventListener('click', closeModal);
+
+    // Logout Action
+    logoutBtn.addEventListener('click', async () => {
+      await supabaseClient.auth.signOut();
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>

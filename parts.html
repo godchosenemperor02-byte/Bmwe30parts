@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Available Parts & Products</title>
+  
+  <!-- Supabase JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    /* ==========================================
+       THEME VARIABLES & RESET (RED ACCENT)
+       ========================================== */
+    :root {
+      --bg-main: #09090b;
+      --bg-surface: #121215;
+      --bg-surface-hover: #1a1a1e;
+      --bg-card: #16161a;
+      
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.16);
+      
+      /* Red Accent Palette */
+      --red-accent: #ff3b30;
+      --red-hover: #e03126;
+      --red-dim: rgba(255, 59, 48, 0.12);
+      --red-border: rgba(255, 59, 48, 0.3);
+      
+      --text-primary: #f4f4f5;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      
+      --shadow-main: 0 16px 40px -10px rgba(0, 0, 0, 0.8);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: black;
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.5rem;
+}
+
+/* Brand Styling */
+.brand-logo {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.brand-accent {
+  color: #e63946; /* BMW High-performance Red Accent */
+}
+
+/* Desktop Links */
+.desktop-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.desktop-menu a {
+  color: #cccccc;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.desktop-menu a:hover {
+  color: #ffffff;
+}
+
+.btn-contact {
+  background-color: #ffffff;
+  color: #0d0d0d !important;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600 !important;
+  transition: background-color 0.2s ease-in-out !important;
+}
+
+.btn-contact:hover {
+  background-color: #e0e0e0;
+}
+
+/* --- Hamburger Icon (Hidden on Desktop) --- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 26px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger .bar {
+  width: 100%;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* --- Fullscreen Mobile Overlay Menu (Updated Smooth Slide & Stagger) --- */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(13, 13, 13, 0.98);
+  backdrop-filter: blur(15px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1.5rem;
+  
+  /* Smooth Slide & Fade Down */
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.35s ease,
+              visibility 0.45s ease;
+  z-index: 2000;
+}
+
+.mobile-menu.active {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 2.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.close-btn:active {
+  transform: scale(0.9);
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* Staggered Link Animation */
+.mobile-nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  
+  /* Initial offset position for staggered reveal */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s ease;
+}
+
+/* Slide links up into place when menu is active */
+.mobile-menu.active .mobile-nav-links a {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger timings per link */
+.mobile-menu.active .mobile-nav-links a:nth-child(1) { transition-delay: 0.15s; }
+.mobile-menu.active .mobile-nav-links a:nth-child(2) { transition-delay: 0.20s; }
+.mobile-menu.active .mobile-nav-links a:nth-child(3) { transition-delay: 0.25s; }
+.mobile-menu.active .mobile-nav-links a:nth-child(4) { transition-delay: 0.30s; }
+.mobile-menu.active .mobile-nav-links a:nth-child(5) { transition-delay: 0.35s; }
+.mobile-menu.active .mobile-nav-links a:nth-child(6) { transition-delay: 0.40s; }
+
+.mobile-nav-links a:hover {
+  color: #e63946;
+}
+
+.btn-contact-mobile {
+  background-color: #e63946;
+  color: #ffffff !important;
+  padding: 0.8rem 2.5rem;
+  border-radius: 8px;
+  font-size: 1.2rem !important;
+  margin-top: 1rem;
+}
+
+
+.btn-contact-mobile {
+  background-color: #e63946;
+  color: #ffffff !important;
+  padding: 0.8rem 2.5rem;
+  border-radius: 8px;
+  font-size: 1.2rem !important;
+  margin-top: 1rem;
+}
+
+/* --- Responsive Media Query --- */
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+    /* ==========================================
+       HERO & CONTROLS SECTION
+       ========================================== */
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+      width: 100%;
+      flex: 1;
+    }
+
+    .hero-section {
+      margin-bottom: 32px;
+    }
+
+    .hero-section h2 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .hero-section p {
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+
+    /* Filter & Search Controls */
+    .controls-bar {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .search-input-wrapper {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .search-input-wrapper input {
+      width: 100%;
+      height: 44px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0 16px;
+      color: var(--text-primary);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input-wrapper input:focus {
+      border-color: var(--red-accent);
+      box-shadow: 0 0 0 3px var(--red-dim);
+    }
+
+    .category-filter {
+      height: 44px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0 16px;
+      color: var(--text-primary);
+      font-size: 14px;
+      outline: none;
+      cursor: pointer;
+      min-width: 160px;
+      transition: all 0.2s ease;
+    }
+
+    .category-filter:focus {
+      border-color: var(--red-accent);
+    }
+
+    /* ==========================================
+       PRODUCT GRID & CARDS
+       ========================================== */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 20px;
+      padding: 20px ;
+    }
+
+    .product-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-main);
+    }
+
+    .card-image-wrapper {
+      width: 100%;
+      height: 200px;
+      background: var(--bg-card);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .no-image {
+      color: var(--text-muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Status Badge Over Image */
+    .status-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+    }
+
+    .status-available {
+      background: rgba(48, 209, 88, 0.2);
+      color: #30d158;
+      border: 1px solid rgba(48, 209, 88, 0.4);
+    }
+
+    .status-sold_out {
+      background: var(--red-dim);
+      color: var(--red-accent);
+      border: 1px solid var(--red-border);
+    }
+
+    .status-pre_order {
+      background: rgba(255, 159, 10, 0.2);
+      color: #ff9f0a;
+      border: 1px solid rgba(255, 159, 10, 0.4);
+    }
+
+    /* Card Details Body */
+    .card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-category {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .card-description {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-bottom: 16px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+      margin-top: auto;
+    }
+
+    .card-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: #4feb34;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    .order-btn {
+      background: var(--red-accent);
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .order-btn:hover {
+      background: var(--red-hover);
+    }
+
+    .order-btn:disabled {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      cursor: not-allowed;
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Loading & Empty States */
+    .state-container {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 64px 24px;
+      color: var(--text-secondary);
+    }
+
+    /* ==========================================
+       MOBILE RESPONSIVE TWEAKS (<= 768px)
+       ========================================== */
+    @media (max-width: 768px) {
+      .store-header {
+        padding: 14px 16px;
+      }
+
+      .main-container {
+        padding: 20px 16px 40px;
+      }
+
+      .hero-section h2 {
+        font-size: 22px;
+      }
+
+      .controls-bar {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .search-input-wrapper, .category-filter {
+        width: 100%;
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+        gap: 16px;
+      }
+
+      .card-image-wrapper {
+        height: 180px;
+      }
+    }
+    
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="nav-container">
+      
+      <!-- Brand / Logo -->
+      <a href="#" class="brand-logo">
+        <span class="brand-accent">BMW</span> E30 PARTS
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="desktop-menu">
+        <a href="parts.html">inventory</a>
+        <a href="index.html">Home</a>
+          <a href="login.html">Login</a>
+      </nav>
+
+      <!-- Hamburger Toggle Button (Mobile) -->
+      <button class="hamburger" id="hamburger-btn" aria-label="Toggle Navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+    </div>
+
+    <!-- Fullscreen Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobile-menu">
+      <div class="mobile-menu-header">
+        <a href="#" class="brand-logo">
+          <span class="brand-accent">BMW</span> E30 PARTS
+        </a>
+        <button class="close-btn" id="close-btn" aria-label="Close Menu">&times;</button>
+      </div>
+      <nav class="mobile-nav-links">
+        <a href="parts.html" class="mobile-link">Inventory</a>
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="login.html" class="mobile-link">Login</a>
+        
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="main-container">
+    
+    <section class="hero-section">
+      <h2>Available Parts & Accessories</h2>
+      <p>Browse our live inventory stored in Supabase. Select a part to make an order.</p>
+    </section>
+
+    <!-- Search & Filter Actions -->
+    <div class="controls-bar">
+      <div class="search-input-wrapper">
+        <input type="text" id="searchInput" placeholder="Search by name or category..." oninput="handleFilter()" />
+      </div>
+      <select id="categoryFilter" class="category-filter" onchange="handleFilter()">
+        <option value="ALL">All Categories</option>
+      </select>
+    </div>
+
+    <!-- Products Grid -->
+    <div id="productsGrid" class="products-grid">
+      <div class="state-container">Loading parts catalog...</div>
+    </div>
+
+  </main>
+
+  <script>
+    // 1. Initialize Supabase Client
+    const SUPABASE_URL = 'https://kyhjvnpynjfdhlkvpnpy.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_8O7H7icfsySvMHZHy-Uprw_lJnTvXf5';
+    
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Global State
+    let allProducts = [];
+
+    // DOM Elements
+    const productsGrid = document.getElementById('productsGrid');
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+
+    // 2. Fetch Products from Supabase Table
+    async function fetchCatalog() {
+      try {
+        const { data, error } = await supabaseClient
+          .from('products')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        allProducts = data || [];
+        populateCategories(allProducts);
+        renderProducts(allProducts);
+
+      } catch (err) {
+        console.error('Error fetching catalog:', err);
+        productsGrid.innerHTML = `<div class="state-container">Failed to load products. Please refresh the page.</div>`;
+      }
+    }
+
+    // 3. Populate Category Dropdown Dynamically
+    function populateCategories(products) {
+      const categories = [...new Set(products.map(p => p.category).filter(Boolean))];
+      
+      // Reset filter options
+      categoryFilter.innerHTML = '<option value="ALL">All Categories</option>';
+      
+      categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        categoryFilter.appendChild(opt);
+      });
+    }
+
+    // 4. Render Products Grid
+    function renderProducts(products) {
+      if (!products || products.length === 0) {
+        productsGrid.innerHTML = `<div class="state-container">No parts found matching your criteria.</div>`;
+        return;
+      }
+
+      productsGrid.innerHTML = products.map(product => {
+        const isAvailable = product.status === 'available' || !product.status;
+        const statusClass = `status-${product.status || 'available'}`;
+        const statusLabel = (product.status || 'available').replace('_', ' ');
+
+        return `
+          <div class="product-card">
+            <div class="card-image-wrapper">
+              ${
+                product.image_url 
+                  ? `<img src="${product.image_url}" alt="${product.name}" class="card-image" loading="lazy" />`
+                  : `<span class="no-image">No Image</span>`
+              }
+              <span class="status-badge ${statusClass}">${statusLabel}</span>
+            </div>
+            
+            <div class="card-body">
+              <span class="card-category">${product.category || 'General'}</span>
+              <h3 class="card-title">${product.name}</h3>
+              <p class="card-description">${product.description || 'No detailed description available.'}</p>
+              
+              <div class="card-footer">
+                <span class="card-price">$${Number(product.price || 0).toLocaleString()}</span>
+                <button 
+                  class="order-btn" 
+                  ${!isAvailable ? 'disabled' : ''} 
+                  onclick="handleOrder('${product.id}', '${product.name}')">
+                  ${isAvailable ? 'Order Now' : 'Unavailable'}
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 5. Handle Search and Category Filter
+    function handleFilter() {
+      const query = searchInput.value.toLowerCase().trim();
+      const selectedCategory = categoryFilter.value;
+
+      const filtered = allProducts.filter(p => {
+        const matchesQuery = (p.name && p.name.toLowerCase().includes(query)) || 
+                             (p.category && p.category.toLowerCase().includes(query)) ||
+                             (p.description && p.description.toLowerCase().includes(query));
+        
+        const matchesCategory = selectedCategory === 'ALL' || p.category === selectedCategory;
+
+        return matchesQuery && matchesCategory;
+      });
+
+      renderProducts(filtered);
+    }
+
+    // 6. Empty Order Function Placeholder
+    function handleOrder(productId, productName) {
+      // Empty function ready to be wired up to WhatsApp, checkout modal, or backend order logic
+      console.log(`Order initiated for Product ID: ${productId} (${productName})`);
+    }
+
+    // Execute on page load
+    fetchCatalog();
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+const closeBtn = document.getElementById('close-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileLinks = document.querySelectorAll('.mobile-link');
+
+// Open full-screen mobile menu
+hamburgerBtn.addEventListener('click', () => {
+  mobileMenu.classList.add('active');
+  document.body.style.overflow = 'hidden'; // Prevent background scrolling when menu is open
+});
+
+// Close full-screen mobile menu
+const closeMenu = () => {
+  mobileMenu.classList.remove('active');
+  document.body.style.overflow = 'auto'; // Restore scrolling
+};
+
+closeBtn.addEventListener('click', closeMenu);
+
+// Close menu when clicking any menu link
+mobileLinks.forEach(link => {
+  link.addEventListener('click', closeMenu);
+});
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login — E30 Tuning & Parts</title>
+  <!-- Supabase JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<style>
+  /* Base Page Reset & Dark Canvas */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-wrapper {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Card Container */
+.login-card {
+  background: #0d0d0e;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 40px 32px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.8);
+}
+
+/* Header */
+.card-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a1a1a6;
+  background: #161618;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.card-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #f5f5f7;
+  margin-bottom: 8px;
+}
+
+.card-header p {
+  font-size: 14px;
+  color: #86868b;
+  line-height: 1.4;
+}
+
+/* Form Controls */
+#loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #a1a1a6;
+  letter-spacing: -0.01em;
+}
+
+input {
+  width: 100%;
+  height: 48px;
+  background: #161618;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0 16px;
+  color: #ffffff;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+input::placeholder {
+  color: #55555e;
+}
+
+input:focus {
+  border-color: #ffffff;
+  background: #1c1c1e;
+}
+
+/* Error Banner */
+.error-banner {
+  background: rgba(255, 69, 58, 0.15);
+  border: 1px solid rgba(255, 69, 58, 0.3);
+  color: #ff453a;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* Submit Button */
+.login-btn {
+  width: 100%;
+  height: 50px;
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
+}
+.login-btn2 {
+  width: 100%;
+  height: 50px;
+  background: black;
+  color: White;
+  border: solid 1px White;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.login-btn2>a {
+  text-decoration:none;
+  color: white ;
+}
+.login-btn:hover {
+  background: #e8e8ed;
+}
+
+.login-btn:active {
+  transform: scale(0.99);
+}
+
+.login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+</style>
+<body>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="card-header">
+        <span class="badge">E30 Admin</span>
+        <h2>Welcome Back</h2>
+        <p>Enter your credentials to access the management portal.</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="input-group">
+          <label for="email">Email Address</label>
+          <input 
+            type="email" 
+            id="email" 
+            placeholder="admin@example.com" 
+            required 
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            placeholder="••••••••" 
+            required 
+            autocomplete="current-password"
+          />
+        </div>
+
+        <div id="errorMessage" class="error-banner" style="display: none;"></div>
+
+        <button type="submit" id="submitBtn" class="login-btn">
+          <span>Sign In</span>
+        </button>
+      </form>
+              <Button href="index.html" class="login-btn2">
+          <a href="index.html">Home</a>
+        </Burton>
+    </div>
+  </div>
+
+<script>
+  // 1. Initialize Supabase
+  const SUPABASE_URL = 'https://kyhjvnpynjfdhlkvpnpy.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_8O7H7icfsySvMHZHy-Uprw_lJnTvXf5';
+  
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // 2. DOM Elements
+  const loginForm = document.getElementById('loginForm');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const errorMessage = document.getElementById('errorMessage');
+  const submitBtn = document.getElementById('submitBtn');
+
+  // 3. Safe Session Verification (Prevents Redirect Loop)
+  async function checkExistingSession() {
+    // getUser() validates the JWT against Supabase server rather than trusting unverified storage
+    const { data: { user }, error } = await supabaseClient.auth.getUser();
+
+    if (user && !error) {
+      window.location.replace('admin.html');
+    }
+  }
+
+  checkExistingSession();
+
+  // 4. Handle Login Submission
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Reset state
+    errorMessage.style.display = 'none';
+    errorMessage.textContent = '';
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>Signing in...</span>';
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    try {
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+
+      if (error) throw error;
+
+      // Use replace so login isn't retained in history
+      window.location.replace('admin.html');
+    } catch (err) {
+      errorMessage.textContent = err.message || 'Failed to authenticate. Please try again.';
+      errorMessage.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>Sign In</span>';
+    }
+  });
+</script>
+</body>
+</html>
