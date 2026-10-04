@@ -72,11 +72,11 @@
     </p>
 
     <div class="e30-hero-actions">
-      <a href="parts.html" class="e30-btn e30-btn-primary">
+      <a href="#shop" class="e30-btn e30-btn-primary">
         Browse Parts
       </a>
 
-      <a href="#footer" class="e30-btn e30-btn-outline">
+      <a href="#contact" class="e30-btn e30-btn-outline">
         Contact Us
       </a>
     </div>
@@ -375,181 +375,11 @@
         <span>Find My Part</span>
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-<!-- ==========================================
-     PART FINDER MODAL
-     ========================================== -->
-
-<div class="finder-modal" id="finderModal">
-
-  <div class="finder-modal-content">
-
-    <div class="finder-modal-header">
-      <div>
-        <h3>Tell Us About Your Request</h3>
-        <p>
-          Leave your contact details and we'll get back to you about the part.
-        </p>
-      </div>
-
-      <button
-        type="button"
-        class="finder-modal-close"
-        id="finderModalClose"
-        aria-label="Close"
-      >
-        &times;
+        </svg>
       </button>
-    </div>
-
-
-    <!-- Selected request summary -->
-
-    <div class="finder-request-summary">
-
-      <p>
-        <strong>Model:</strong>
-        <span id="summaryModel"></span>
-      </p>
-
-      <p>
-        <strong>Year:</strong>
-        <span id="summaryYear"></span>
-      </p>
-
-      <p>
-        <strong>Category:</strong>
-        <span id="summaryCategory"></span>
-      </p>
-
-      <p>
-        <strong>Part:</strong>
-        <span id="summaryPart"></span>
-      </p>
-
-    </div>
-
-
-    <div
-      class="finder-modal-message"
-      id="finderModalMessage"
-    ></div>
-
-
-    <form id="finderContactForm">
-
-      <!-- Request information -->
-      <input
-        type="hidden"
-        name="form_type"
-        value="Part Finder Request"
-      />
-
-      <input
-        type="hidden"
-        name="vehicle_model"
-        id="formModel"
-      />
-
-      <input
-        type="hidden"
-        name="vehicle_year"
-        id="formYear"
-      />
-
-      <input
-        type="hidden"
-        name="part_category"
-        id="formCategory"
-      />
-
-      <input
-        type="hidden"
-        name="part_needed"
-        id="formPart"
-      />
-
-
-      <!-- Customer information -->
-
-      <div class="finder-modal-group">
-
-        <label for="finderName">
-          Full Name
-        </label>
-
-        <input
-          type="text"
-          id="finderName"
-          name="full_name"
-          placeholder="Enter your full name"
-          required
-        />
-
-      </div>
-
-
-      <div class="finder-modal-group">
-
-        <label for="finderPhone">
-          Phone Number
-        </label>
-
-        <input
-          type="tel"
-          id="finderPhone"
-          name="phone_number"
-          placeholder="e.g. +234 801 234 5678"
-          required
-        />
-
-      </div>
-
-
-      <div class="finder-modal-group">
-
-        <label for="finderLocation">
-          Location
-        </label>
-
-        <input
-          type="text"
-          id="finderLocation"
-          name="location"
-          placeholder="City / State / Country"
-          required
-        />
-
-      </div>
-
-
-      <div class="finder-modal-group">
-
-        <label for="finderDetails">
-          Additional Details
-        </label>
-
-        <textarea
-          id="finderDetails"
-          name="additional_details"
-          placeholder="Any other details about the part you need..."
-        ></textarea>
-
-      </div>
-
-
-      <button
-        type="submit"
-        class="finder-modal-submit"
-        id="finderModalSubmit"
-      >
-        Send Part Request
-      </button>
-
     </form>
-
   </div>
-
-</div>
+</section>
 <!-- how ordering works -->
 <section class="process-section" id="process">
   <div class="container">
