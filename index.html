@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>E30 Parts Guy | Genuine BMW E30 Spares</title>
+  <title>Auto Parts & Accessories | Quality Automotive Parts</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -11,10 +11,10 @@
   <!-- Header & Navigation Bar -->
   <header class="navbar">
     <div class="nav-container">
-      
+
       <!-- Brand / Logo -->
       <a href="#" class="brand-logo">
-        <span class="brand-accent">BMW</span> E30 PARTS
+        <span class="brand-accent">AUTO</span> PARTS
       </a>
 
       <!-- Desktop Navigation Links -->
@@ -22,8 +22,8 @@
         <a href="#">Home</a>
         <a href="#categories">Categories</a>
         <a href="parts.html">Inventory</a>
-        <a href="#part-finder">Custom Order</a>
-        <a href="#process">Process</a>
+        <a href="#part-finder">Find a Part</a>
+        <a href="#process">How It Works</a>
         <a href="login.html">Login</a>
         <a href="#footer" class="btn-contact">Contact Us</a>
       </nav>
@@ -41,282 +41,612 @@
     <div class="mobile-menu" id="mobile-menu">
       <div class="mobile-menu-header">
         <a href="#" class="brand-logo">
-<span class="brand-accent">AUTO</span> PARTS        </a>
+          <span class="brand-accent">AUTO</span> PARTS
+        </a>
         <button class="close-btn" id="close-btn" aria-label="Close Menu">&times;</button>
       </div>
+
       <nav class="mobile-nav-links">
         <a href="#" class="mobile-link">Home</a>
         <a href="#categories" class="mobile-link">Categories</a>
         <a href="parts.html" class="mobile-link">Inventory</a>
-        <a href="#part-finder" class="mobile-link">Custom Order</a>
-        <a href="#process" class="mobile-link">Process</a>
-       <a href="login.html" class="mobile-link">Login</a>
+        <a href="#part-finder" class="mobile-link">Find a Part</a>
+        <a href="#process" class="mobile-link">How It Works</a>
+        <a href="login.html" class="mobile-link">Login</a>
         <a href="#footer" class="mobile-link btn-contact-mobile">Contact Us</a>
       </nav>
     </div>
   </header>
-  <!-- hero section -->
-<section class="e30-hero">
-  <div class="e30-hero-content">
-    <span class="e30-eyebrow">BMW E30 PARTS STORE</span>
 
-    <h1>
-      Genuine Parts.<br>
-      <span>Built for the E30.</span>
-    </h1>
+  <!-- Hero Section -->
+  <section class="e30-hero">
+    <div class="e30-hero-content">
+      <span class="e30-eyebrow">QUALITY AUTO PARTS</span>
 
-    <p>
-      Quality replacement parts and accessories for your BMW E30.
-      From engine and suspension components to interiors and more.
-    </p>
+      <h1>
+        The Right Parts.<br>
+        <span>For Every Drive.</span>
+      </h1>
 
-    <div class="e30-hero-actions">
-      <a href="parts.html" class="e30-btn e30-btn-primary">
-        Browse Parts
+      <p>
+        Find quality replacement parts and accessories for your vehicle.
+        From engine and suspension components to exterior, interior, and
+        performance upgrades.
+      </p>
+
+      <div class="e30-hero-actions">
+        <a href="parts.html" class="e30-btn e30-btn-primary">
+          Browse Parts
+        </a>
+
+        <a href="#footer" class="e30-btn e30-btn-outline">
+          Contact Us
+        </a>
+      </div>
+
+      <div class="e30-hero-image">
+        <div class="e30-image-glow"></div>
+
+        <img
+          src="hero.jpg"
+          alt="Quality automotive parts and accessories"
+          style="filter: brightness(60%)"
+        />
+      </div>
+
+      <div class="e30-image-badge">
+        <span>AUTO</span>
+        <strong>PARTS</strong>
+        <small>PARTS & ACCESSORIES</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="parts-categories" id="categories">
+    <div class="categories-header">
+      <div>
+        <span class="section-label">SHOP BY CATEGORY</span>
+        <h2>Find the <span>Parts You Need.</span></h2>
+      </div>
+
+      <p>
+        Explore a range of automotive parts and accessories for different
+        vehicle makes and models.
+      </p>
+    </div>
+
+    <div class="category-grid">
+
+      <a href="parts.html" class="category-card category-featured">
+        <img src="e.jpeg" alt="Automotive engine and mechanical parts">
+
+        <div class="category-overlay"></div>
+
+        <div class="category-content">
+          <span>01</span>
+          <h3>Engine &<br>Mechanical</h3>
+          <p>Engine components, cooling systems & more</p>
+          <strong>Explore Category →</strong>
+        </div>
       </a>
 
-      <a href="#footer" class="e30-btn e30-btn-outline">
-        Contact Us
+      <a href="parts.html" class="category-card">
+        <img src="s.webp" alt="Automotive suspension and steering parts">
+
+        <div class="category-overlay"></div>
+
+        <div class="category-content">
+          <span>02</span>
+          <h3>Suspension & Steering</h3>
+          <strong>Explore →</strong>
+        </div>
       </a>
-    </div>
 
-  <div class="e30-hero-image">
-    <div class="e30-image-glow"></div>
+      <a href="parts.html" class="category-card">
+        <img src="x.jpeg" alt="Automotive exterior and body parts">
 
-    <img
-      src="hero.jpg"
-      alt="BMW E30"
-      style ="filter: brightness(60%)"
-    />
-</div>
-    <div class="e30-image-badge">
-      <span>BMW</span>
-      <strong>E30</strong>
-      <small>PARTS & ACCESSORIES</small>
-    </div>
-  </div>
-</section>
-<!-- Categories -->
-<section class="parts-categories" id="categories">
-  <div class="categories-header">
-    <div>
-      <span class="section-label">SHOP BY CATEGORY</span>
-      <h2>Find Your <span>E30 Parts.</span></h2>
-    </div>
+        <div class="category-overlay"></div>
 
-    <p>
-      Explore our selection of parts and accessories built around the
-      BMW E30.
-    </p>
-  </div>
-
-  <div class="category-grid">
-
-    <a href="parts.html" class="category-card category-featured">
-      <img src="e.jpeg" alt="BMW E30 engine parts">
-
-      <div class="category-overlay"></div>
-
-      <div class="category-content">
-        <span>01</span>
-        <h3>Engine &<br>Mechanical</h3>
-        <p>Engine components, cooling & more</p>
-        <strong>Explore Category →</strong>
-      </div>
-    </a>
-
-    <a href="parts.html" class="category-card">
-      <img src="s.webp" alt="BMW E30 suspension">
-
-      <div class="category-overlay"></div>
-
-      <div class="category-content">
-        <span>02</span>
-        <h3>Suspensions</h3>
-        <strong>Explore →</strong>
-      </div>
-    </a>
-    
-    <a href="parts.html" class="category-card">
-      <img src="x.jpeg" alt="BMW E30 exterior parts">
-
-      <div class="category-overlay"></div>
-
-      <div class="category-content">
-        <span>03</span>
-        <h3>Exterior</h3>
-        <strong>Explore →</strong>
-      </div>
-    </a>
-
-    <a href="parts.html" class="category-card">
-      <img src="i.jpeg" alt="BMW E30 interior">
-
-      <div class="category-overlay"></div>
-
-      <div class="category-content">
-        <span>04</span>
-        <h3>Interior</h3>
-        <strong>Explore →</strong>
-      </div>
-    </a>
-
-  </div>
-</section>
-<!-- Featured Parts Section -->
-<section class="featured-section" id="inventory">
-  <div class="featured-container">
-    
-    <!-- Section Header -->
-    <div class="section-header">
-      <div class="header-left">
-        <span class="section-eyebrow">CURATED INVENTORY</span>
-        <h2 class="section-title">Featured Parts</h2>
-      </div>
-      <a href="parts.html" class="view-all-link">
-        Explore full inventory <span class="chevron">&rsaquo;</span>
+        <div class="category-content">
+          <span>03</span>
+          <h3>Exterior & Body</h3>
+          <strong>Explore →</strong>
+        </div>
       </a>
+
+      <a href="parts.html" class="category-card">
+        <img src="i.jpeg" alt="Automotive interior parts and accessories">
+
+        <div class="category-overlay"></div>
+
+        <div class="category-content">
+          <span>04</span>
+          <h3>Interior & Accessories</h3>
+          <strong>Explore →</strong>
+        </div>
+      </a>
+
     </div>
+  </section>
 
-    <!-- 4-Product Grid -->
-    <div class="products-grid">
+  <!-- Featured Parts Section -->
+  <section class="featured-section" id="inventory">
+    <div class="featured-container">
 
-      <!-- Product 1: Instrument Cluster -->
-      <article class="product-card">
-        <div class="product-image-container">
-          <span class="product-badge">Rare Find</span>
-          <img 
-            src="1.webp" 
-            alt="BMW E30 Instrument Gauge Cluster" 
-            class="product-img"
+      <!-- Section Header -->
+      <div class="section-header">
+        <div class="header-left">
+          <span class="section-eyebrow">OUR INVENTORY</span>
+          <h2 class="section-title">Featured Parts</h2>
+        </div>
+
+        <a href="parts.html" class="view-all-link">
+          Explore full inventory <span class="chevron">&rsaquo;</span>
+        </a>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="products-grid">
+
+        <!-- Product 1 -->
+        <article class="product-card">
+          <div class="product-image-container">
+            <span class="product-badge">Popular Item</span>
+
+            <img
+              src="1.webp"
+              alt="Premium automotive front seats"
+              class="product-img"
+            />
+          </div>
+
+          <div class="product-details">
+            <span class="product-category">Interior</span>
+            <h3 class="product-title">Premium Front Seats</h3>
+            <p class="product-spec"></p>
+
+            <div class="product-footer">
+              <span class="product-status available">$450</span>
+              <a href="parts.html" class="btn-product-cta">Browse Inventory</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 2 -->
+        <article class="product-card">
+          <div class="product-image-container">
+            <span class="product-badge">Quality Part</span>
+
+            <img
+              src="2.webp"
+              alt="Automotive front subframe assembly"
+              class="product-img"
+            />
+          </div>
+
+          <div class="product-details">
+            <span class="product-category">Suspension</span>
+            <h3 class="product-title">Front Subframe Assembly</h3>
+            <p class="product-spec"></p>
+
+            <div class="product-footer">
+              <span class="product-status available">$350</span>
+              <a href="parts.html" class="btn-product-cta">Browse Inventory</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 3 -->
+        <article class="product-card">
+          <div class="product-image-container">
+            <span class="product-badge">Featured</span>
+
+            <img
+              src="3.webp"
+              alt="Automotive rear tail lights"
+              class="product-img"
+            />
+          </div>
+
+          <div class="product-details">
+            <span class="product-category">Exterior</span>
+            <h3 class="product-title">Rear Tail Lights</h3>
+            <p class="product-spec"></p>
+
+            <div class="product-footer">
+              <span class="product-status available">$180</span>
+              <a href="parts.html" class="btn-product-cta">Browse Inventory</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="why-us-section">
+    <div class="why-us-container">
+
+      <!-- Section Header -->
+      <div class="why-us-header">
+        <span class="section-eyebrow">THE QUALITY STANDARD</span>
+        <h2 class="section-title">Why Choose Us</h2>
+      </div>
+
+      <!-- Key Points Grid -->
+      <div class="why-us-grid">
+
+        <!-- Point 01 -->
+        <div class="why-card">
+          <span class="why-number">01</span>
+          <h3 class="why-card-title">Parts for Every Need</h3>
+          <p class="why-card-desc">
+            Explore automotive components and accessories for a wide range
+            of vehicle makes and models.
+          </p>
+        </div>
+
+        <!-- Point 02 -->
+        <div class="why-card">
+          <span class="why-number">02</span>
+          <h3 class="why-card-title">Quality You Can Trust</h3>
+          <p class="why-card-desc">
+            Find replacement parts selected with quality, reliability,
+            and performance in mind.
+          </p>
+        </div>
+
+        <!-- Point 03 -->
+        <div class="why-card">
+          <span class="why-number">03</span>
+          <h3 class="why-card-title">Convenient Shipping</h3>
+          <p class="why-card-desc">
+            Get your parts delivered with shipping options suited to your
+            location and order.
+          </p>
+        </div>
+
+        <!-- Point 04 -->
+        <div class="why-card">
+          <span class="why-number">04</span>
+          <h3 class="why-card-title">Quick Assistance</h3>
+          <p class="why-card-desc">
+            Get help with stock availability, product details, and vehicle
+            compatibility before ordering.
+          </p>
+        </div>
+
+        <!-- Point 05 -->
+        <div class="why-card why-card-featured">
+          <span class="why-number">05</span>
+          <h3 class="why-card-title">Help Finding Parts</h3>
+          <p class="why-card-desc">
+            Looking for a specific component? Tell us what you need, and
+            we'll help you find the right part.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Part Finder -->
+  <section class="part-finder-section" id="part-finder">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge">VEHICLE COMPATIBILITY / PART FINDER</span>
+        <h2>Looking for a specific part?</h2>
+        <p>
+          Tell us your vehicle's make, model, year, and the part you need.
+          We'll help you find a suitable match.
+        </p>
+      </div>
+
+      <form class="finder-card" id="partFinderForm">
+        <div class="form-grid">
+
+          <!-- Vehicle Make and Model -->
+          <div class="input-group">
+            <label for="model">Vehicle Make & Model</label>
+
+            <div class="select-wrapper">
+              <select id="model" required>
+                <option value="" disabled selected>Select Make & Model</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Honda">Honda</option>
+                <option value="Mercedes-Benz">Mercedes-Benz</option>
+                <option value="BMW">BMW</option>
+                <option value="Volkswagen">Volkswagen</option>
+                <option value="Audi">Audi</option>
+                <option value="Ford">Ford</option>
+                <option value="Nissan">Nissan</option>
+                <option value="Hyundai">Hyundai</option>
+                <option value="Kia">Kia</option>
+                <option value="Lexus">Lexus</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Year Selection -->
+          <div class="input-group">
+            <label for="year">Model Year</label>
+
+            <div class="select-wrapper">
+              <select id="year" required>
+                <option value="" disabled selected>Select Year</option>
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+                <option value="2010">2010 or earlier</option>
+                <option value="older">Older vehicle</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Category Selection -->
+          <div class="input-group">
+            <label for="category">Part Category</label>
+
+            <div class="select-wrapper">
+              <select id="category" required>
+                <option value="" disabled selected>Select Category</option>
+                <option value="engine">Engine & Mechanical</option>
+                <option value="suspension">Suspension & Steering</option>
+                <option value="transmission">Transmission & Drivetrain</option>
+                <option value="electrical">Electrical & Electronics</option>
+                <option value="exterior">Exterior & Body</option>
+                <option value="interior">Interior & Accessories</option>
+                <option value="brakes">Brakes</option>
+                <option value="cooling">Cooling System</option>
+                <option value="performance">Performance & Tuning</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Part Details -->
+          <div class="input-group full-width">
+            <label for="part-needed">Which part do you need?</label>
+
+            <input
+              type="text"
+              id="part-needed"
+              placeholder="e.g. alternator, brake pads, headlights, engine mount..."
+              required
+            />
+          </div>
+
+        </div>
+
+        <button type="submit" class="submit-btn">
+          <span>Find My Part</span>
+
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- How Ordering Works -->
+  <section class="process-section" id="process">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge">HOW IT WORKS</span>
+        <h2>How to Order</h2>
+      </div>
+
+      <div class="steps-grid">
+
+        <div class="step-card">
+          <span class="step-num">01</span>
+          <h3>Find Your Part</h3>
+          <p>
+            Browse the available inventory or tell us which part you're
+            looking for.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <span class="step-num">02</span>
+          <h3>Submit Your Request</h3>
+          <p>
+            Share your vehicle details, location, and the part you need.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <span class="step-num">03</span>
+          <h3>Confirm Availability</h3>
+          <p>
+            We'll confirm availability, compatibility, condition, and
+            pricing before you proceed.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <span class="step-num">04</span>
+          <h3>Complete Your Order</h3>
+          <p>
+            Finalize your order and arrange delivery using the available
+            shipping options.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer" id="footer">
+    <div class="footer-container">
+
+      <!-- Brand / Copyright -->
+      <div class="footer-brand">
+        <span class="brand-name">Auto Parts & Accessories</span>
+        <p class="copyright">&copy; 2026. All rights reserved.</p>
+      </div>
+
+      <!-- On-Page Navigation Links -->
+      <nav class="footer-nav">
+        <a href="#">Home</a>
+        <a href="#categories">Categories</a>
+        <a href="#part-finder">Find a Part</a>
+        <a href="#process">How to Order</a>
+      </nav>
+
+      <!-- Social & Contact -->
+      <div class="footer-external">
+
+        <a
+          href="https://www.tiktok.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-link"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64c.29 0 .56.04.82.1v-3.6a6.35 6.35 0 00-.82-.05A6.34 6.34 0 003.15 15.5a6.34 6.34 0 0010.86 4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-.19-4.36z"/>
+          </svg>
+          <span>TikTok</span>
+        </a>
+
+        <a href="mailto:info@example.com" class="footer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+          <span>Email</span>
+        </a>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       PART FINDER MODAL
+       ========================================== -->
+
+  <div class="finder-modal" id="finderModal">
+    <div class="finder-modal-content">
+
+      <div class="finder-modal-header">
+        <div>
+          <h3>Tell Us What Part You Need</h3>
+          <p>
+            Share your contact details so we can get back to you about
+            availability and compatibility.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="finder-modal-close"
+          id="finderModalClose"
+          aria-label="Close"
+        >
+          &times;
+        </button>
+      </div>
+
+      <!-- Selected Request Summary -->
+      <div class="finder-request-summary">
+
+        <p>
+          <strong>Vehicle:</strong>
+          <span id="summaryModel"></span>
+        </p>
+
+        <p>
+          <strong>Model Year:</strong>
+          <span id="summaryYear"></span>
+        </p>
+
+        <p>
+          <strong>Category:</strong>
+          <span id="summaryCategory"></span>
+        </p>
+
+        <p>
+          <strong>Part Needed:</strong>
+          <span id="summaryPart"></span>
+        </p>
+
+      </div>
+
+      <div
+        class="finder-modal-message"
+        id="finderModalMessage"
+      ></div>
+
+      <form id="finderContactForm">
+
+        <!-- Request Information -->
+        <input
+          type="hidden"
+          name="form_type"
+          value="Part Finder Request"
+        />
+
+        <input
+          type="hidden"
+          name="vehicle_model"
+          id="formModel"
+        />
+
+        <input
+          type="hidden"
+          name="vehicle_year"
+          id="formYear"
+        />
+
+        <input
+          type="hidden"
+          name="part_category"
+          id="formCategory"
+        />
+
+        <input
+          type="hidden"
+          name="part_needed"
+          id="formPart"
+        />
+
+        <!-- Customer Information -->
+        <div class="finder-modal-group">
+          <label for="finderName">Full Name</label>
+
+          <input
+            type="text"
+            id="finderName"
+            name="full_name"
+            placeholder="Enter your full name"
+            required
           />
         </div>
-        <div class="product-details">
-          <span class="product-category">Interior</span>
-          <h3 class="product-title">BMW E30 Coupe Sport Seats</h3>
-          <p class="product-spec"></p>
-          <div class="product-footer">
-            <span class="product-status available">$2,500</span>
-            <a href="parts.html" class="btn-product-cta">Browse Inventory</a>
-          </div>
-        </div>
-      </article>
 
-      <!-- Product 2: Steering Wheel -->
-      <article class="product-card">
-        <div class="product-image-container">
-          <span class="product-badge">Rare Find</span>
-          <img 
-            src="2.webp" 
-            alt="BMW E30 M-Tech 1 Steering Wheel" 
-            class="product-img"
+        <div class="finder-modal-group">
+          <label for="finderPhone">Phone Number</label>
+
+          <input
+            type="tel"
+            id="finderPhone"
+            name="phone_number"
+            placeholder="Enter your phone number"
+            required
           />
-        </div>
-        <div class="product-details">
-          <span class="product-category">Exterior</span>
-          <h3 class="product-title">BMW E30 Front subframe</h3>
-          <p class="product-spec"></p>
-          <div class="product-footer">
-            <span class="product-status available">$700</span>
-           <a href="parts.html" class="btn-product-cta">Browse Inventory</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Product 3: Engine / Mechanical -->
-      <article class="product-card">
-        <div class="product-image-container">
-          <span class="product-badge">Rare Find</span>
-          <img 
-            src="3.webp" 
-            alt="BMW M20 Valve Control Units" 
-            class="product-img"
-          />
-        </div>
-        <div class="product-details">
-          <span class="product-category">Exterior</span>
-          <h3 class="product-title">BMW E30 Tail Headlights</h3>
-          <p class="product-spec"></p>
-          <div class="product-footer">
-            <span class="product-status available">$500</span>
-           <a href="parts.html" class="btn-product-cta">Browse Inventory</a>
-          </div>
-        </div>
-      </article>
-
-    </div>
-
-  </div>
-</section>
-<!-- Why Choose Us Section -->
-<section class="why-us-section">
-  <div class="why-us-container">
-    
-    <!-- Section Header -->
-    <div class="why-us-header">
-      <span class="section-eyebrow">THE KIASER STANDARD</span>
-      <h2 class="section-title">Why E30 Owners Choose Us</h2>
-    </div>
-
-    <!-- 5 Key Points Grid -->
-    <div class="why-us-grid">
-
-      <!-- Point 01 -->
-      <div class="why-card">
-        <span class="why-number">01</span>
-        <h3 class="why-card-title">E30-Focused Parts</h3>
-        <p class="why-card-desc">Dedicated exclusively to the E30 chassis. No generic fitments or filler inventory.</p>
-      </div>
-
-      <!-- Point 02 -->
-      <div class="why-card">
-        <span class="why-number">02</span>
-        <h3 class="why-card-title">Quality-Checked Components</h3>
-        <p class="why-card-desc">Every gauge, trim piece, and engine component is bench-tested or visually verified before listing.</p>
-      </div>
-
-      <!-- Point 03 -->
-      <div class="why-card">
-        <span class="why-number">03</span>
-        <h3 class="why-card-title">Worldwide Shipping</h3>
-        <p class="why-card-desc">Safe, tracked international packaging tailored for fragile classic automotive hardware.</p>
-      </div>
-
-      <!-- Point 04 -->
-      <div class="why-card">
-        <span class="why-number">04</span>
-        <h3 class="why-card-title">Fast Response</h3>
-        <p class="why-card-desc">Direct line for quick stock checks, fitment confirmation, and photo requests.</p>
-      </div>
-
-      <!-- Point 05 -->
-      <div class="why-card why-card-featured">
-        <span class="why-number">05</span>
-        <h3 class="why-card-title">Parts Assistance</h3>
-        <p class="why-card-desc">Need help sourcing a rare part number? We assist in tracking down exact chassis hardware.</p>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-<!-- Parts -->
-<section class="part-finder-section" id="part-finder">
-  <div class="container">
-    <div class="section-header">
-      <span class="badge">E30 Compatibility / Part Finder</span>
-      <h2>Looking for a specific part?</h2>
-      <p>Tell us your E30 model, year, and the exact part you're looking for.</p>
-    </div>
-
-    <form class="finder-card" id="partFinderForm">
-      <div class="form-grid">
-        <!-- Model Selection -->
-        <div class="input-group">
-          <label for="model">Model</label>
-          <div class="select-wrapper">
-            <select id="model" required>
-              <option value="" disabled selected>Select Model</option>
               <option value="318i">318i / 318is</option>
               <option value="325i">325i / 325is / 325e</option>
               <option value="325ix">325iX (AWD)</option>
